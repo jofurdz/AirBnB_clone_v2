@@ -11,14 +11,14 @@ class FileStorage:
 # test needed for update to all
     def all(self, cls=None):
         """Returns a dictionary of models currently in storage"""
-        if cls is None:
-            return self.__objects
-        else:
-            for key, value, in self.__objects.items():
+        if cls:
+            temp = {}
+            for key in FileStorage.__objects.keys():
                 if cls.__name__ in key:
-                    cls[key] = value
-                return value
-        return FileStorage.__objects
+                    temp[key] = FileStorage.__objects[key]
+            return temp
+        else:
+            return FileStorage.__objects
 
     def new(self, obj):
         """Adds new object to storage dictionary"""
