@@ -15,7 +15,7 @@ class FileStorage:
             return self.__objects
         else:
             for key, value, in self.__objects.items():
-                if cls.__name__ in k:
+                if cls.__name__ in key:
                     cls[key] = value
                 return value
         return FileStorage.__objects
