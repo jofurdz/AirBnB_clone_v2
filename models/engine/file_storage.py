@@ -7,9 +7,17 @@ class FileStorage:
     """This class manages storage of hbnb models in JSON format"""
     __file_path = 'file.json'
     __objects = {}
-
-    def all(self):
+# not sure if this is right
+# test needed for update to all
+    def all(self, cls=None):
         """Returns a dictionary of models currently in storage"""
+        if cls is None:
+            return self.__objects
+        else:
+            for key, value, in self.__objects.items():
+                if cls.__name__ in k:
+                    cls[key] = value
+                return value
         return FileStorage.__objects
 
     def new(self, obj):
@@ -32,6 +40,8 @@ class FileStorage:
         from models.place import Place
         from models.state import State
         from models.city import City
+        from models.review import Review
+        from models.amenity import Amenity
         from models.amenity import Amenity
         from models.review import Review
 
@@ -48,3 +58,12 @@ class FileStorage:
                         self.all()[key] = classes[val['__class__']](**val)
         except FileNotFoundError:
             pass
+# test needed for delete in FileStorage
+    def delete(self, obj=None):
+        """deletes obj from __objects if its inside """
+        if obj:
+            for key in self.__objects:
+                if self.__objects[key] == obj:
+                    del self.__objects[key]
+                    return
+
