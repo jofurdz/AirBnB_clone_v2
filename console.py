@@ -139,7 +139,7 @@ class HBNBCommand(cmd.Cmd):
                     newDict.update({key: int(val)})
                 except Exception:
                     pass
-        new_instance = HBNBCommand.classes[newList[0]](*newDict)
+        new_instance = HBNBCommand.classes[newList[0]](**newDict)
         storage.new(new_instance)
         print(new_instance.id)
         storage.save()
