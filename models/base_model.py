@@ -5,6 +5,8 @@ from datetime import datetime
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import Column, String, DateTime
 import os
+
+from sqlalchemy.sql.expression import delete
 # Create Base = declarative_base() before the
 # class definition of BaseModel
 Base = declarative_base()
@@ -33,13 +35,12 @@ class BaseModel:
                 if key == "created_at" or key == "updated_at":
                     value = datetime.strptime(value, "%Y-%m-%dT%H:%M:%S.%f")
                 if key != "__class__":
-                    # if os.getenv("HBNB_TYPE_STORAGE") == "db":
-                        # value = value.strip('"')
+                    if os.getenv("HBNB_TYPE_STORAGE") == "db":
+                        value = value.strip('"')
                     setattr(self, key, value)
         else:
             self.id = str(uuid.uuid4())
             self.created_at = self.updated_at = datetime.now()
-
 
     def __str__(self):
         """Returns a string representation of the instance"""
@@ -64,3 +65,7 @@ class BaseModel:
         dictionary['updated_at'] = self.updated_at.isoformat()
         dictionary.pop('_sa_instance_state', None)
         return dictionary
+
+    def delete(self):
+        from models import storage
+        storage.delete(self)

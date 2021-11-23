@@ -45,16 +45,16 @@ class  DBStorage:
         Returns all instances of a class if the class name is passed.
         If it's empty, return all instances of valid classes.
         """
-        # sub_classes = {'BaseModel': BaseModel, 'User': User, 'Place': Place,
-            # 'State': State, 'City': City, 'Amenity': Amenity,
-            # 'Review': Review }
+        sub_classes = { User, Place, State,  City,  Amenity, Review}
 
-        if cls in Base.__subclasses__:
+
+        if cls in sub_classes:
             return {"{}.{}".format(cls.__name__, cls.id)
                     for cls in self.__session.query(cls).all()}
+
         else:
             obj = {}
-            for x in Base.__subclasses__():
+            for x in sub_classes:
               obj.update({"{}.{}".format(x.__name__,obj.id)
                          for obj in self.__session.query(x).all()})
             return obj
