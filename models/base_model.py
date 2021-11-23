@@ -4,7 +4,7 @@ import uuid
 from datetime import datetime
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import Column, String, DateTime
-
+import os
 # Create Base = declarative_base() before the
 # class definition of BaseModel
 Base = declarative_base()
@@ -30,9 +30,11 @@ class BaseModel:
 
         if kwargs:
             for key, value in kwargs.items():
-                if key == "created_at" or "updated_at":
+                if key == "created_at" or key == "updated_at":
                     value = datetime.strptime(value, "%Y-%m-%dT%H:%M:%S.%f")
-                if key != '__class__':
+                if key != "__class__":
+                    # if os.getenv("HBNB_TYPE_STORAGE") == "db":
+                        # value = value.strip('"')
                     setattr(self, key, value)
         else:
             self.id = str(uuid.uuid4())
@@ -60,7 +62,5 @@ class BaseModel:
                           (str(type(self)).split('.')[-1]).split('\'')[0]})
         dictionary['created_at'] = self.created_at.isoformat()
         dictionary['updated_at'] = self.updated_at.isoformat()
-        if '_sa_instance_state' in dictionary:
-            del dictionary['_sa_instance_state']
-            return dictionary
+        dictionary.pop('_sa_instance_state', None)
         return dictionary
