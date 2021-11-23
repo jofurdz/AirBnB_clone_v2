@@ -10,10 +10,7 @@ class City(BaseModel, Base):
     # test needed
     # add __tablename__ and link to DBStorage
     __tablename__ = 'cities'
-
-    if getenv('HBNB_TYPE_STORAGE') == 'db':
-        name = Column(String(128),nullable=False)
-        state_id = Column(String(60), ForeignKey('states.id'), nullable=False)
-    else:
-        state_id = ""
-        name = ""
+    state_id = Column(String(60), ForeignKey('states.id'), nullable=False)
+    name = Column(String(128), nullable=False)
+    places = relationship('Place', backref='cities',
+                           cascade='all, delete-orphan')
