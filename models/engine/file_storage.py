@@ -13,9 +13,9 @@ class FileStorage:
         """Returns a dictionary of models currently in storage"""
         if cls:
             temp = {}
-            for key in FileStorage.__objects.keys():
+            for key in self.__objects.keys():
                 if cls.__name__ in key:
-                    temp[key] = FileStorage.__objects[key]
+                    temp[key] = self.__objects[key]
             return temp
         else:
             return FileStorage.__objects
