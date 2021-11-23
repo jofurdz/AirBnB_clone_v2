@@ -2,7 +2,6 @@
 """This module defines a class to manage DataBase storage for hbnb clone"""
 from sqlalchemy.orm import scoped_session
 from sqlalchemy.orm import sessionmaker
-from sqlalchemy.orm.base import class_mapper
 from models.base_model import BaseModel, Base
 from models.user import User
 from models.state import State
@@ -30,7 +29,7 @@ class  DBStorage:
         # (hbnb_dev and hbnb_dev_db):
         user = os.getenv("HBNB_MYSQL_USER")
         pwd = os.getenv("HBNB_MYSQL_PWD")
-        host = os.getenv("HBNB_MYSQL_HOST@localhost")
+        host = os.getenv("HBNB_MYSQL_HOST")
         db = os.getenv("HBNB_MYSQL_DB")
 
         self.__engine = create_engine(
@@ -49,14 +48,15 @@ class  DBStorage:
 
 
         if cls in sub_classes:
-            return {"{}.{}".format(cls.__name__, cls.id)
-                    for cls in self.__session.query(cls).all()}
+            return {"{}.{}".format(cls.__name__, thing.id)
+                    for thing in self.__session.query(cls)}
 
         else:
             obj = {}
             for x in sub_classes:
-              obj.update({"{}.{}".format(x.__name__,obj.id)
-                         for obj in self.__session.query(x).all()})
+              obj.update({"{}.{}".format(x.__name__,huss.id):
+                          huss for huss in self.__session.query(x)})
+            print("i HATE TAST 6", obj)
             return obj
 
     def new(self, obj):
