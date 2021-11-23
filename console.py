@@ -2,7 +2,7 @@
 """ Console Module """
 import cmd
 import sys
-from models.base_model import BaseModel
+from models.base_model import BaseModel, Base
 from models.__init__ import storage
 from models.user import User
 from models.place import Place
@@ -125,11 +125,10 @@ class HBNBCommand(cmd.Cmd):
         newDict = {}
         for x in newList[1:]:
             key, val = x.split("=", 1)
-            if "\"" in val:
-                try:
-                    newDict.update({key: val.replace("_", " ").strip("\"")})
-                except Exception:
-                    pass
+            if val.startswith('"') and val.endswith('"'):
+                newDict.update(
+                    {key: val.replace("_", " ").replace('\\"', '"')[1:-1]}
+                )
             elif "." in val:
                 try:
                     newDict.update({key: float(val)})
@@ -141,7 +140,7 @@ class HBNBCommand(cmd.Cmd):
                 except Exception:
                     pass
         new_instance = HBNBCommand.classes[newList[0]](*newDict)
-        storage.save()
+        storage.new(new_instance)
         print(new_instance.id)
         storage.save()
 
