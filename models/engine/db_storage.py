@@ -2,6 +2,7 @@
 """This module defines a class to manage DataBase storage for hbnb clone"""
 from sqlalchemy.orm import scoped_session
 from sqlalchemy.orm import sessionmaker
+from sqlalchemy.orm.session import Session
 from models.base_model import BaseModel, Base
 from models.user import User
 from models.state import State
@@ -44,20 +45,20 @@ class  DBStorage:
         Returns all instances of a class if the class name is passed.
         If it's empty, return all instances of valid classes.
         """
-        sub_classes = { User, Place, State,  City,  Amenity, Review}
-
-
-        if cls in sub_classes:
-            return {"{}.{}".format(cls.__name__, thing.id)
-                    for thing in self.__session.query(cls)}
-
+        all_dict = {}
+        # classes = ['Places', 'State', 'Review', 'City', 'User', 'Amenity']
+        if cls:
+            result = self.__session.query(eval(cls)).all()
+            for item in result:
+                key = '{}.{}'.format(item.__class__.__name__, item.id)
+                all_dict[key] = item
         else:
-            obj = {}
-            for x in sub_classes:
-              obj.update({"{}.{}".format(x.__name__,huss.id):
-                          huss for huss in self.__session.query(x)})
-            print("i HATE TAST 6", obj)
-            return obj
+            for x in Base.__subclasses__():
+                result = self.__session.query(x).all()
+                for item in result:
+                    key = '{}.{}'.format(item.__class__.__name__, item.id)
+                    all_dict[key] = item
+        return all_dict
 
     def new(self, obj):
         """NEW"""
@@ -78,6 +79,13 @@ class  DBStorage:
     def reload(self):
         Base.metadata.create_all(self.__engine)
         curr = sessionmaker(bind=self.__engine, expire_on_commit=False)
-        self.__session = scoped_session(curr)
+        Session = scoped_session(curr)
+        self.__session = Session
+
+    def close(self):
+        """END session"""
+        self.__session.close()
+
+
 
 
