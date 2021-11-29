@@ -14,18 +14,16 @@ from models.city import City
 class State(BaseModel, Base):
     """ State class """
     __tablename__ = 'states'
-
+    name = Column(String(128), nullable=False)
     if getenv('HBNB_MYSQL_DB') == 'db':
-        name = Column(String(128),nullable=False)
-        cities = relationship(City, cascade="all", backref="States")
-
-    name = ""
-
-    @property
-    def cities(self):
-        """returns city list instead"""
-        res = []
-        for i in models.storage.all(City).values():
-            if i.state_id == self.id:
-                res.append(i)
-        return res
+        cities = relationship('City', cascade="all", backref="tate")
+    else:
+        name = ""
+        @property
+        def cities(self):
+            """returns city list instead"""
+            res = []
+            for i in models.storage.all(City).values():
+                if i.state_id == self.id:
+                    res.append(i)
+            return res

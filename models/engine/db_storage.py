@@ -80,7 +80,8 @@ class  DBStorage:
         Base.metadata.create_all(self.__engine)
         curr = sessionmaker(bind=self.__engine, expire_on_commit=False)
         Session = scoped_session(curr)
-        self.__session = Session
+        self.__session = Session()
+        self.save()
 
     def close(self):
         """END session"""
