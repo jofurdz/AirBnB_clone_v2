@@ -7,7 +7,6 @@ from sqlalchemy import Column, String
 from models.city import City
 import models
 
-from models.city import City
 # test needed
 # add __tablename__ and link to DBStorage
 # update state task 6
@@ -18,7 +17,6 @@ class State(BaseModel, Base):
     if getenv('HBNB_MYSQL_DB') == 'db':
         cities = relationship('City', cascade="all", backref="tate")
     else:
-        name = ""
         @property
         def cities(self):
             """returns city list instead"""

@@ -37,7 +37,7 @@ class  DBStorage:
             'mysql+mysqldb://{}:{}@{}/{}'.format(user, pwd, host, db),
                 pool_pre_ping=True)
 
-        if os.getenv("HBNB_ENV") == "tests":
+        if os.getenv("HBNB_ENV") == "test":
             Base.matadata.drop_all(bind=self.__engine)
 
     def all(self, cls=None):
