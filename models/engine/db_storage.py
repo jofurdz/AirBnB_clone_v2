@@ -48,7 +48,7 @@ class  DBStorage:
         all_dict = {}
         # classes = ['Places', 'State', 'Review', 'City', 'User', 'Amenity']
         if cls:
-            result = self.__session.query(eval(cls)).all()
+            result = self.__session.query(cls).all()
             for item in result:
                 key = '{}.{}'.format(item.__class__.__name__, item.id)
                 all_dict[key] = item

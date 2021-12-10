@@ -35,8 +35,6 @@ class BaseModel:
                 if key == "created_at" or key == "updated_at":
                     value = datetime.strptime(value, "%Y-%m-%dT%H:%M:%S.%f")
                 if key != "__class__":
-                    if os.getenv("HBNB_TYPE_STORAGE") == "db":
-                        value = value.strip('"')
                     setattr(self, key, value)
 
             # self.id = str(uuid.uuid4())
