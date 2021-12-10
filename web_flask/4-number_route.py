@@ -26,7 +26,7 @@ def python_route(text="is cool"):
     """python_route"""
     return "Python {}".format(text.replace("_", " "))
 
-@app.route('number/<int:n', strict_slashes=False)
+@app.route('/number/<int>:n', strict_slashes=False)
 def number(n):
     if isinstance(n, int):
         return "{} is a number".format(n)

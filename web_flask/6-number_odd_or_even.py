@@ -27,7 +27,7 @@ def python_route(text="is cool"):
     """python_route"""
     return "Python {}".format(text.replace("_", " "))
 
-@app.route('number/<int:n', strict_slashes=False)
+@app.route('/number/<int:n>', strict_slashes=False)
 def number(n):
     if isinstance(n, int):
         return "{} is a number".format(n)
@@ -38,10 +38,13 @@ def number_template(n):
     if isinstance(n, int):
         return render_template("5-number.html", n=n)
 
-@app.route('/nuber_odd_or_even/<int:n>', strict_slashes=False)
+@app.route('/number_odd_or_even/<int:n>', strict_slashes=False)
 def odd_even(n):
-    if isinstance(n, int):
-        return render_template("6-number_odd_or_even.html", n=n)
+        if n % 2 == 0:
+            oe = "even"
+        else:
+            oe = "odd"
+        return render_template("6-number_odd_or_even.html", n=n, oe=oe)
 
 
 if __name__ == "__main__":
