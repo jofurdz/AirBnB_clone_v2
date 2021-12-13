@@ -35,11 +35,13 @@ def poopla(n):
 
 
 @app.route('/number_template/<int:n>', strict_slashes=False)
+"""displays page only if number is an int"""
 def num_temp(n):
     return render_template('5-number.html')
 
 
 @app.route('/number_odd_or_even/<int:n>', strict_slashes=False)
+"""displays page if numbre is an int"""
 def num_parity(n):
     if n % 2 == 0:
         string = "even"
