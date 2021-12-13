@@ -35,9 +35,8 @@ def poopla(n):
 
 
 @app.route('/number_template/<int:n>', strict_slashes=False)
-"""displays page only if number is an int"""
 def num_temp(n):
-    return render_template('5-number.html', n = n)
+    return render_template('5-number.html', n=n)
 
 
 if __name__ == '__main__':
