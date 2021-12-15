@@ -10,6 +10,8 @@ import models
 # test needed
 # add __tablename__ and link to DBStorage
 # update state task 6
+
+
 class State(BaseModel, Base):
     """ State class """
     __tablename__ = 'states'
