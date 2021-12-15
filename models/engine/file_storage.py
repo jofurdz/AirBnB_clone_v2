@@ -9,6 +9,7 @@ class FileStorage:
     __objects = {}
 # not sure if this is right
 # test needed for update to all
+
     def all(self, cls=None):
         """Returns a dictionary of models currently in storage"""
         if cls:
@@ -55,10 +56,11 @@ class FileStorage:
             with open(FileStorage.__file_path, 'r') as f:
                 temp = json.load(f)
                 for key, val in temp.items():
-                        self.all()[key] = classes[val['__class__']](**val)
+                    self.all()[key] = classes[val['__class__']](**val)
         except FileNotFoundError:
             pass
 # test needed for delete in FileStorage
+
     def delete(self, obj=None):
         """deletes obj from __objects if its inside """
         if obj:

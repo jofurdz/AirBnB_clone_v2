@@ -17,11 +17,11 @@ from sqlalchemy import create_engine
 # SQL engine test will be needed
 # New engine DBStorage: (models/engine/db_storage.py)
 
-class  DBStorage:
+class DBStorage:
     """ SQL DB Storage"""
 # Private class attributes
-    __engine: None
-    __session: None
+    __engine = None
+    __session = None
 
     def __init__(self):
         """Initializes the DBStroage"""
@@ -35,7 +35,7 @@ class  DBStorage:
 
         self.__engine = create_engine(
             'mysql+mysqldb://{}:{}@{}/{}'.format(user, pwd, host, db),
-                pool_pre_ping=True)
+            pool_pre_ping=True)
 
         if os.getenv("HBNB_ENV") == "test":
             Base.matadata.drop_all(bind=self.__engine)
@@ -64,7 +64,7 @@ class  DBStorage:
         """NEW"""
         try:
             self.__session.add(obj)
-        except:
+        except Exception:
             pass
 
     def save(self):
@@ -86,7 +86,3 @@ class  DBStorage:
     def close(self):
         """END session"""
         self.__session.close()
-
-
-
-
